@@ -2,7 +2,8 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import type {
     CreatePlaylistArgs,
     PlaylistData,
-    PlaylistsResponse}
+    PlaylistsResponse, UpdatePlaylistArgs
+}
     from "@/features/playlists/api/playlistsApi.types.ts";
 
 export const playlistsApi = createApi({
@@ -13,7 +14,7 @@ export const playlistsApi = createApi({
         headers: {
             'API-KEY': import.meta.env.VITE_API_KEY,
         },
-        prepareHeaders: headers => {
+        prepareHeaders: (headers) => {
             headers.set('Authorization', `Bearer ${import.meta.env.VITE_ACCESS_TOKEN}`)
             return headers
         },
@@ -23,6 +24,7 @@ export const playlistsApi = createApi({
         fetchPlaylists: build.query<PlaylistsResponse, void>({
             query: () => 'playlists'
         }),
+
         createPlaylist: build.mutation<{data: PlaylistData}, CreatePlaylistArgs>({
             query: body => ({
                 url: 'playlists',
@@ -30,8 +32,25 @@ export const playlistsApi = createApi({
                 body,
             }),
         }),
+        deletePlaylist: build.mutation<void, string>({
+            query: playlistId => ({
+                url: `playlists/${playlistId}`,
+                method: 'delete',
+            }),
+        }),
+
+        updatePlaylist: build.mutation<void, { playlistId: string; body: UpdatePlaylistArgs }>({
+            query: ({ playlistId, body }) => ({
+                url: `playlists/${playlistId}`,
+                method: 'put',
+                body,
+            }),
+        }),
     }),
 })
 
-
-export const {useFetchPlaylistsQuery, useCreatePlaylistMutation} = playlistsApi
+export const {
+    useFetchPlaylistsQuery,
+    useCreatePlaylistMutation,
+    useDeletePlaylistMutation, useUpdatePlaylistMutation
+} = playlistsApi
