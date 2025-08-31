@@ -9,9 +9,6 @@ export const CreatePlaylistForm = () => {
     const {register, handleSubmit, reset} = useForm<CreatePlaylistArgs>()
     const [createPlaylist] = useCreatePlaylistMutation()
 
-
-
-
     const onSubmit: SubmitHandler<CreatePlaylistArgs> = data => {
         createPlaylist(data)
             .unwrap()

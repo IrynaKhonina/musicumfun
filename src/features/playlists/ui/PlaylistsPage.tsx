@@ -10,9 +10,9 @@ import {EditPlaylistForm} from "@/features/playlists/ui/EditPlaylistForm.tsx";
 export const PlaylistsPage = () => {
     const [playlistId, setPlaylistId] = useState<string | null>(null)
 
-    const {register, handleSubmit, reset} = useForm<UpdatePlaylistArgs>()
+    const { register, handleSubmit, reset } = useForm<UpdatePlaylistArgs>()
 
-    const {data} = useFetchPlaylistsQuery()
+    const { data } = useFetchPlaylistsQuery()
 
     const [deletePlaylist] = useDeletePlaylistMutation()
 
@@ -38,7 +38,7 @@ export const PlaylistsPage = () => {
     return (
         <div className={s.container}>
             <h1>Playlists page</h1>
-            <CreatePlaylistForm/>
+            <CreatePlaylistForm />
             <div className={s.items}>
                 {data?.data.map(playlist => {
                     const isEditing = playlistId === playlist.id
