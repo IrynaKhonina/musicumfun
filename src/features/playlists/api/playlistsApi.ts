@@ -30,7 +30,7 @@ export const playlistsApi = baseApi.injectEndpoints({
             invalidatesTags: ['Playlist'],
         }),
         uploadPlaylistCover: build.mutation<Images, { playlistId: string; file: File }>({
-            query: ({ playlistId, file }) => {
+            query: ({playlistId, file}) => {
                 const formData = new FormData()
                 formData.append('file', file)
                 return {
@@ -41,8 +41,15 @@ export const playlistsApi = baseApi.injectEndpoints({
             },
             invalidatesTags: ['Playlist'],
         }),
+
+        deletePlaylistCover: build.mutation<void, { playlistId: string }>({
+            query: ({ playlistId }) => ({ url: `playlists/${playlistId}/images/main`, method: 'delete' }),
+            invalidatesTags: ['Playlist'],
         }),
-    })
+
+
+    }),
+})
 
 
 export const {
@@ -50,5 +57,6 @@ export const {
     useCreatePlaylistMutation,
     useDeletePlaylistMutation,
     useUpdatePlaylistMutation,
-    useUploadPlaylistCoverMutation
+    useUploadPlaylistCoverMutation,
+    useDeletePlaylistCoverMutation
 } = playlistsApi
