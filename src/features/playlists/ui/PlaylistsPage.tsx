@@ -4,8 +4,8 @@ import {CreatePlaylistForm} from "@/features/playlists/ui/PlaylistsPage/CreatePl
 import type {PlaylistData, UpdatePlaylistArgs} from "@/features/playlists/api/playlistsApi.types.ts";
 import {useState} from "react";
 import {useForm} from "react-hook-form";
-import {PlaylistItem} from "@/features/playlists/ui/PlaylistItem.tsx";
-import {EditPlaylistForm} from "@/features/playlists/ui/EditPlaylistForm.tsx";
+import {PlaylistItem} from "@/features/playlists/ui/PlaylistItem/PlaylistItem.tsx";
+import {EditPlaylistForm} from "@/features/playlists/ui/EditPlaylistForm/EditPlaylistForm.tsx";
 
 export const PlaylistsPage = () => {
     const [playlistId, setPlaylistId] = useState<string | null>(null)
