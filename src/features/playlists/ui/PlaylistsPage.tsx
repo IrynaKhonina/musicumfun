@@ -8,11 +8,14 @@ import {PlaylistItem} from "@/features/playlists/ui/PlaylistItem/PlaylistItem.ts
 import {EditPlaylistForm} from "@/features/playlists/ui/EditPlaylistForm/EditPlaylistForm.tsx";
 
 export const PlaylistsPage = () => {
-    const [playlistId, setPlaylistId] = useState<string | null>(null)
+    const [search, setSearch] = useState('')
 
+
+    const { data, isLoading } = useFetchPlaylistsQuery({search})
+
+    const [playlistId, setPlaylistId] = useState<string | null>(null)
     const { register, handleSubmit, reset } = useForm<UpdatePlaylistArgs>()
 
-    const { data } = useFetchPlaylistsQuery()
 
     const [deletePlaylist] = useDeletePlaylistMutation()
 
@@ -39,7 +42,13 @@ export const PlaylistsPage = () => {
         <div className={s.container}>
             <h1>Playlists page</h1>
             <CreatePlaylistForm />
+            <input
+                type="search"
+                placeholder={'Search playlist by title'}
+                onChange={e => setSearch(e.currentTarget.value)}
+            />
             <div className={s.items}>
+                {!data?.data.length && !isLoading && <h2>Playlists not found</h2>}
                 {data?.data.map(playlist => {
                     const isEditing = playlistId === playlist.id
 
