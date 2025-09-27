@@ -19,3 +19,9 @@ export type Cover = {
     fileSize: number
     url: string
 }
+export type PlaylistMeta = {
+    page: number
+    pageSize: number
+    totalCount: number
+    pagesCount: number
+}

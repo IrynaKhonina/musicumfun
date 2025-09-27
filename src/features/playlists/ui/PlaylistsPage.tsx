@@ -7,19 +7,29 @@ import {useForm} from "react-hook-form";
 import {PlaylistItem} from "@/features/playlists/ui/PlaylistItem/PlaylistItem.tsx";
 import {EditPlaylistForm} from "@/features/playlists/ui/EditPlaylistForm/EditPlaylistForm.tsx";
 import {useDebounceValue} from "@/common/hooks/useDebounceValue.ts";
+import {Pagination} from "@/common/components/Pagination/Pagination.tsx";
 
 export const PlaylistsPage = () => {
     const [search, setSearch] = useState('')
 
+    const [currentPage, setCurrentPage] = useState(1)
+
+    const [pageSize, setPageSize] = useState(2)
 
     const debounceSearch = useDebounceValue(search)
-    const { data, isLoading } = useFetchPlaylistsQuery({search: debounceSearch})
+    const {data, isLoading} = useFetchPlaylistsQuery({
+        search: debounceSearch,
+        pageNumber: currentPage,
+        pageSize,
+
+    })
 
     const [playlistId, setPlaylistId] = useState<string | null>(null)
-    const { register, handleSubmit, reset } = useForm<UpdatePlaylistArgs>()
+    const {register, handleSubmit, reset} = useForm<UpdatePlaylistArgs>()
 
 
     const [deletePlaylist] = useDeletePlaylistMutation()
+
 
     const deletePlaylistHandler = (playlistId: string) => {
         if (confirm('Are you sure you want to delete the playlist?')) {
@@ -39,11 +49,15 @@ export const PlaylistsPage = () => {
             setPlaylistId(null)
         }
     }
+    const changePageSizeHandler = (size: number) => {
+        setPageSize(size)
+        setCurrentPage(1)
+    }
 
     return (
         <div className={s.container}>
             <h1>Playlists page</h1>
-            <CreatePlaylistForm />
+            <CreatePlaylistForm/>
             <input
                 type="search"
                 placeholder={'Search playlist by title'}
@@ -75,6 +89,13 @@ export const PlaylistsPage = () => {
                     )
                 })}
             </div>
+            <Pagination
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                pagesCount={data?.meta.pagesCount || 1}
+                pageSize={pageSize}
+                changePageSize={changePageSizeHandler}
+            />
         </div>
     )
 }
