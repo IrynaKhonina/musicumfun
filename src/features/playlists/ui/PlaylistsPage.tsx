@@ -2,7 +2,7 @@ import {useDeletePlaylistMutation, useFetchPlaylistsQuery} from "@/features/play
 import s from './PlaylistsPage.module.css'
 import {CreatePlaylistForm} from "@/features/playlists/ui/PlaylistsPage/CreatePlaylistForm/CreatePlaylistForm.tsx";
 import type {PlaylistData, UpdatePlaylistArgs} from "@/features/playlists/api/playlistsApi.types.ts";
-import {useState} from "react";
+import {type ChangeEvent, useState} from "react";
 import {useForm} from "react-hook-form";
 import {PlaylistItem} from "@/features/playlists/ui/PlaylistItem/PlaylistItem.tsx";
 import {EditPlaylistForm} from "@/features/playlists/ui/EditPlaylistForm/EditPlaylistForm.tsx";
@@ -54,6 +54,12 @@ export const PlaylistsPage = () => {
         setCurrentPage(1)
     }
 
+    const searchPlaylistHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setSearch(e.currentTarget.value)
+        setCurrentPage(1)
+    }
+
+
     return (
         <div className={s.container}>
             <h1>Playlists page</h1>
@@ -61,7 +67,7 @@ export const PlaylistsPage = () => {
             <input
                 type="search"
                 placeholder={'Search playlist by title'}
-                onChange={e => setSearch(e.currentTarget.value)}
+                onChange={searchPlaylistHandler}
             />
             <div className={s.items}>
                 {!data?.data.length && !isLoading && <h2>Playlists not found</h2>}
