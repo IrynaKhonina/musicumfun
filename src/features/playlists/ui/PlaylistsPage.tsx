@@ -13,11 +13,16 @@ export const PlaylistsPage = () => {
     const [search, setSearch] = useState('')
     const debounceSearch = useDebounceValue(search)
 
-    const { data, isLoading } = useFetchPlaylistsQuery({
-        search: debounceSearch,
-        pageNumber: currentPage,
-        pageSize,
-    })
+    const {data, isLoading} = useFetchPlaylistsQuery({
+            search: debounceSearch,
+            pageNumber: currentPage,
+            pageSize,
+        },
+    {
+        pollingInterval: 3000,
+            skipPollingIfUnfocused: true,
+    }
+    )
 
     const changePageSizeHandler = (size: number) => {
         setPageSize(size)
@@ -32,13 +37,13 @@ export const PlaylistsPage = () => {
     return (
         <div className={s.container}>
             <h1>Playlists page</h1>
-            <CreatePlaylistForm />
+            <CreatePlaylistForm/>
             <input
                 type="search"
                 placeholder={'Search playlist by title'}
                 onChange={searchPlaylistHandler}
             />
-            <PlaylistsList playlists={data?.data || []} isPlaylistsLoading={isLoading} />
+            <PlaylistsList playlists={data?.data || []} isPlaylistsLoading={isLoading}/>
             <Pagination
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
