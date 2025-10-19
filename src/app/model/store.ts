@@ -9,4 +9,7 @@ export const store = configureStore({
     middleware: getDefaultMiddleware => getDefaultMiddleware().concat(baseApi.middleware),
 })
 
+export type RootState = ReturnType<typeof store.getState>
+
+
 setupListeners(store.dispatch)
