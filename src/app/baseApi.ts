@@ -1,7 +1,5 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 import {toast} from "react-toastify";
-import {isErrorWithMessage} from "@/common/utils/isErrorWithMessage.ts";
-import {isErrorWithError} from "@/common/utils/isErrorWithError.ts";
 import {isErrorWithProperty} from "@/common/utils/isErrorWithProperty.ts";
 
 export const baseApi = createApi({
