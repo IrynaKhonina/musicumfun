@@ -26,14 +26,16 @@ export const playlistsApi = baseApi.injectEndpoints({
         }),
 
         updatePlaylist: build.mutation<void, { playlistId: string; body: UpdatePlaylistArgs }>({
-            query: ({ playlistId, body }) => ({ url: `playlists/${playlistId}`, method: 'put', body }),
-            async onQueryStarted({ playlistId, body }, { dispatch, queryFulfilled, getState }) {
+            query: ({ playlistId, body }) => {
+                return { method: 'put', url: `playlists/${playlistId}`, body }
+            },
+            onQueryStarted: async ({ playlistId, body }, { queryFulfilled, dispatch, getState }) => {
                 const args = playlistsApi.util.selectCachedArgsForQuery(getState(), 'fetchPlaylists')
 
-                const patchResults: any[] = []
+                const patchCollections: any[] = []
 
-                args.forEach(arg => {
-                    patchResults.push(
+                args.forEach((arg) => {
+                    patchCollections.push(
                         dispatch(
                             playlistsApi.util.updateQueryData(
                                 'fetchPlaylists',
@@ -42,22 +44,22 @@ export const playlistsApi = baseApi.injectEndpoints({
                                     pageSize: arg.pageSize,
                                     search: arg.search,
                                 },
-                                state => {
-                                    const index = state.data.findIndex(playlist => playlist.id === playlistId)
+                                (state) => {
+                                    const index = state.data.findIndex((playlist) => playlist.id === playlistId)
                                     if (index !== -1) {
                                         state.data[index].attributes = { ...state.data[index].attributes, ...body }
                                     }
-                                }
-                            )
-                        )
+                                },
+                            ),
+                        ),
                     )
                 })
 
                 try {
                     await queryFulfilled
-                } catch {
-                    patchResults.forEach(patchResult => {
-                        patchResult.undo()
+                } catch (e) {
+                    patchCollections.forEach((patchCollection) => {
+                        patchCollection.undo()
                     })
                 }
             },
