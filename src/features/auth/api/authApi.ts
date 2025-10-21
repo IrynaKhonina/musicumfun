@@ -6,6 +6,7 @@ export const authApi = baseApi.injectEndpoints({
     endpoints: build => ({
         getMe: build.query<MeResponse, void>({
             query: () => `auth/me`,
+            providesTags:['Auth']
         }),
         login: build.mutation<LoginResponse, LoginArgs>({
             query: payload => ({
