@@ -5,6 +5,11 @@
     align-items: center;
     justify-content: space-between;
 }
+.loginContainer {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
 .list {
     display: flex;
     gap: 40px;
