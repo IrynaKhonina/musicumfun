@@ -1,4 +1,4 @@
-import {baseApi} from "@/app/baseApi.ts";
+import {baseApi} from "@/app/api/baseApi.ts";
 import type {LoginArgs, LoginResponse, MeResponse} from "@/features/auth/api/authApi.types.ts";
 import {AUTH_KEYS} from "@/common/constants/constants.ts";
 

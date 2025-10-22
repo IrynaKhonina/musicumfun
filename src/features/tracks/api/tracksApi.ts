@@ -1,4 +1,4 @@
-import {baseApi} from "@/app/baseApi.ts";
+import {baseApi} from "@/app/api/baseApi.ts";
 import type {FetchTracksResponse} from "@/features/tracks/api/tracksApi.types.ts";
 
 export const tracksApi = baseApi.injectEndpoints({
