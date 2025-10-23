@@ -14,7 +14,7 @@ export const OAuthCallback = () => {
             window.opener.postMessage({ code }, '*')
         }
 
-        window.close()
+            window.close()
     }, [])
 
     return <p>Logging you in...</p>
