@@ -15,6 +15,7 @@ export const playlistsApi = baseApi.injectEndpoints({
         fetchPlaylists: build.query({
             query: (params: FetchPlaylistsArgs) => ({url: `playlists`, params}),
             ...withZodCatch(playlistsResponseSchema),
+            skipSchemaValidation: process.env.NODE_ENV === 'production',
             providesTags: ['Playlist'],
         }),
 
