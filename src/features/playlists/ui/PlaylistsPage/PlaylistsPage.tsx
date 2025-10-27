@@ -53,6 +53,6 @@ export const PlaylistsPage = () => {
                 pageSize={pageSize}
                 changePageSize={changePageSizeHandler}
             />
-        </div>
-    )
+            </div>
+        )
 }

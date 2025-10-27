@@ -1,5 +1,7 @@
 import {baseApi} from "@/app/api/baseApi.ts";
 import type {FetchTracksResponse} from "@/features/tracks/api/tracksApi.types.ts";
+import {withZodCatch} from "@/common/utils/withZodCatch.ts";
+import {fetchTracksResponseSchema} from "@/features/tracks/model/tracks.schemas.ts";
 
 export const tracksApi = baseApi.injectEndpoints({
     endpoints: build => ({
@@ -12,6 +14,7 @@ export const tracksApi = baseApi.injectEndpoints({
                         : undefined
                 },
             },
+            ...withZodCatch(fetchTracksResponseSchema),
             query: ({ pageParam }) => {
                 return {
                     url: 'playlists/tracks',
